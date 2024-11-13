@@ -18,7 +18,7 @@ public class Rocket : MonoBehaviour
     HealthManager health;
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.layer != LayerMask.NameToLayer("Player") && collision.gameObject.layer != LayerMask.NameToLayer("Gun"))
+        if(collision.gameObject.layer != LayerMask.NameToLayer("Player") && collision.gameObject.layer != LayerMask.NameToLayer("Gun") && collision.gameObject.layer != LayerMask.NameToLayer("NonExplosive"))
         {
             Explode();
             Destroy(gameObject);

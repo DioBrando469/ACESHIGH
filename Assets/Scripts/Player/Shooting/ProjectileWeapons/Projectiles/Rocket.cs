@@ -38,7 +38,7 @@ public class Rocket : MonoBehaviour
             health = hit.gameObject.GetComponent<HealthManager>();
             if(hit.gameObject == this.transform.parent.gameObject)
             {
-                health.TakeDamage(System.Convert.ToInt32((damage - (Vector3.Distance(transform.position, hit.transform.position)) * coef) * 0.7f));
+                health.TakeDamage(0);
             }
             if (hit.gameObject != this.transform.parent.gameObject)
             {

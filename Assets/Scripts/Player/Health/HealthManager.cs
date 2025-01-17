@@ -18,6 +18,9 @@ public class HealthManager : MonoBehaviour
     {
         playerHealth += healing;
     }
+    public void SetHealth(int health){
+        playerHealth = health;
+    }
     public int ReturnHealth()
     {
         return playerHealth;

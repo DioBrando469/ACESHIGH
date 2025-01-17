@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class Rocket : MonoBehaviour
 {
@@ -14,12 +15,24 @@ public class Rocket : MonoBehaviour
     [SerializeField] float damage;
     [SerializeField] float falloff;
     [SerializeField] float minDamage;
-    TeamAssign team;
-    HealthManager health;
+    //TeamAssign team;
+    EnemyHealth health;
+    void Awake()
+    {
+        //if(this.transform.parent != null && this.transform.parent.tag == "Player")
+        //{
+        //    playerMask = LayerMask.NameToLayer("Player");
+        //}
+        //else if(this.transform.parent != null && (this.transform.parent.tag == "Enemy" || this.transform.parent.tag == "EnemyRadius"))
+        //{
+        //    playerMask = LayerMask.NameToLayer("Enemy");
+        //}
+    }
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.layer != LayerMask.NameToLayer("Player") && collision.gameObject.layer != LayerMask.NameToLayer("Gun") && collision.gameObject.layer != LayerMask.NameToLayer("NonExplosive"))
+        if(playerMask != (playerMask | 1 << collision.gameObject.layer))
         {
+            print(collision.gameObject.layer);
             Explode();
             Destroy(gameObject);
         }
@@ -31,22 +44,27 @@ public class Rocket : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
         foreach (Collider hit in colliders)
         {
-            TeamAssign team = hit.GetComponent<TeamAssign>();
+            //TeamAssign team = hit.GetComponent<TeamAssign>();
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
                 rb.AddExplosionForce(power, explosionPos, radius, verticalPower);
-            health = hit.gameObject.GetComponent<HealthManager>();
-            if(hit.gameObject == this.transform.parent.gameObject)
+            health = hit.gameObject.GetComponent<EnemyHealth>();
+            //if(hit.gameObject == this.transform.parent.gameObject)
+            //{
+            //    if(health != null)
+            //    health.TakeDamage(0);
+            //}
+            if(health != null)
             {
-                health.TakeDamage(0);
+                //if (hit.gameObject != this.transform.parent.gameObject)
+                //{
+                    if (health != null)
+                    {
+                        health.TakeDamage(System.Convert.ToInt32(Mathf.Clamp(System.Convert.ToSingle((damage - (Vector3.Distance(transform.position, hit.transform.position)) * coef)) - (Vector3.Distance(hit.transform.position, this.transform.parent.position) * falloff), minDamage, damage)));
+                    }
+                //}
             }
-            if (hit.gameObject != this.transform.parent.gameObject)
-            {
-                if (health != null && team.ReturnTeam() != this.transform.parent.gameObject.GetComponent<TeamAssign>().ReturnTeam())
-                {
-                    health.TakeDamage(System.Convert.ToInt32(Mathf.Clamp(System.Convert.ToSingle((damage - (Vector3.Distance(transform.position, hit.transform.position)) * coef)) - (Vector3.Distance(hit.transform.position, this.transform.parent.position) * falloff), minDamage, damage)));
-                }
-            }
+            
         }
     }
 }

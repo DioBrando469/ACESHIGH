@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class KillSurface : MonoBehaviour
 {
-    [SerializeField] Transform checkpoint;
+    CheckpointManager checkpoint;
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player"){
-            collision.transform.position = checkpoint.position;
-            collision.transform.rotation = checkpoint.rotation;
-            collision.rigidbody.velocity = new Vector3(0, 0, 0);
+            checkpoint = collision.gameObject.GetComponent<CheckpointManager>();
+            checkpoint.GoToCheckpoint();
         }
     }
 }

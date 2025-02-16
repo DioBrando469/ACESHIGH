@@ -10113,6 +10113,7 @@ GameObject:
   - component: {fileID: 8545435961586264830}
   - component: {fileID: 7826064734868539525}
   - component: {fileID: 4554738048807295684}
+  - component: {fileID: 866575900204482749}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -10297,6 +10298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 0
   maxPlayerHealth: 100
+  hurtSound: Hurt
 --- !u!114 &8084582040644562481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10377,6 +10379,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5728efb793d82cc4a8183de5e0a88300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &866575900204482749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2919693373377199732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8804ba9ed858954428ac431beeb125c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathscreen: {fileID: 7924132966514240140}
 --- !u!1 &3036813691255906618
 GameObject:
   m_ObjectHideFlags: 0
@@ -10550,6 +10565,7 @@ MonoBehaviour:
     type: 3}
   projectileOrigin: {fileID: 8233807274348784572}
   Player: {fileID: 1077319423573082767}
+  fireSoundName: 
   firerate: 1.5
   shootForce: 17
   upwardForce: 4
@@ -10958,6 +10974,7 @@ MonoBehaviour:
     type: 3}
   projectileOrigin: {fileID: 3635791433195156165}
   Player: {fileID: 1077319423573082767}
+  fireSoundName: FireballThrow
   firerate: 1
   shootForce: 17
   upwardForce: 0
@@ -11255,6 +11272,12 @@ PrefabInstance:
 --- !u!224 &620060311224259572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2766241863195409030, guid: 382456a9c000567408976b63ce79f1a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3384824284743772530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7924132966514240140 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4828249342476256254, guid: 382456a9c000567408976b63ce79f1a9,
     type: 3}
   m_PrefabInstance: {fileID: 3384824284743772530}
   m_PrefabAsset: {fileID: 0}

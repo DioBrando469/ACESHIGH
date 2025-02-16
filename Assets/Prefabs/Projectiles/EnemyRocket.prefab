@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 7364656780489597126, guid: ed9448986a521de4c916e1fe3bed989c,
     type: 3}
+  explosionSound: {fileID: 8300000, guid: 4991c0f4642edfe40bd5f54ec05539f1, type: 3}
   playerMask:
     serializedVersion: 2
     m_Bits: 576

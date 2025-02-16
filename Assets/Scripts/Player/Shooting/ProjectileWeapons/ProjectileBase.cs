@@ -12,6 +12,7 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] GameObject projectile;
     [SerializeField] Transform projectileOrigin;
     [SerializeField] Transform Player;
+    [SerializeField] string fireSoundName;
     [Header("Stats")]
     [SerializeField] float firerate;
     //[SerializeField] float projectileSpeed;
@@ -43,6 +44,7 @@ public class ProjectileBase : MonoBehaviour
     }
     void Shoot(Vector3 direction)
     {
+        FindObjectOfType<AudioManager>().Play(fireSoundName);
         isShooting = true;
         GameObject currentprojectile = Instantiate(projectile, projectileOrigin.position, Quaternion.identity, Player);
         currentprojectile.transform.forward = direction.normalized;

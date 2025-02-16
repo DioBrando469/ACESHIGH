@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class KillSurface : MonoBehaviour
 {
-    CheckpointManager checkpoint;
+    HealthManager death;
 
     void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player"){
-            checkpoint = collision.gameObject.GetComponent<CheckpointManager>();
-            checkpoint.GoToCheckpoint();
+            death = collision.gameObject.GetComponent<HealthManager>();
+            death.SetHealth(0);
         }
     }
 }

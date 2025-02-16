@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class EnemyWalk : MonoBehaviour
 {
-    
+    [SerializeField] float maxspeed;
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
     [SerializeField] float speedMultiplier;
@@ -34,16 +34,20 @@ public class EnemyWalk : MonoBehaviour
         slopeMoveDirection = Vector3.ProjectOnPlane(movedirection, slopeHit.normal);
         //if (movedirection.magnitude <= Height || foundplayer == false)
         //{
-            rb.velocity = 0f * movedirection;
+            //rb.velocity = 0f * movedirection;
         //}
         //if (movedirection.magnitude + 0.1 <= Height && foundplayer == false)
         //{
         //    rb.velocity = 0f * movedirection;
         //}
-        if (movedirection.magnitude >= Height)
-        {
+        //if (movedirection.magnitude >= Height)
+        //{
             rb.AddForce(movedirection.normalized * speed * speedMultiplier, ForceMode.VelocityChange);
-        }
+            if (rb.velocity.magnitude > maxspeed)
+            {
+                rb.AddForce(rb.velocity * (-1) * speedMultiplier * 0.5f, ForceMode.VelocityChange);
+            }
+        //}
         
         
     }

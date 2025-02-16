@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 public class Rocket : MonoBehaviour
 {
     [SerializeField] GameObject explosion;
+    [SerializeField] AudioClip explosionSound;
     [SerializeField] LayerMask playerMask;
     [SerializeField] float coef;
     [SerializeField] float power;
@@ -39,7 +40,8 @@ public class Rocket : MonoBehaviour
     }
     void Explode()
     {
-        Instantiate (explosion, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+        Instantiate(explosion, transform.position, Quaternion.identity);
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
         foreach (Collider hit in colliders)

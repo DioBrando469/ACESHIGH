@@ -22,8 +22,13 @@ public class AmmoDisplay : MonoBehaviour
     void Update()
     {
         GetInfo();
-        currentAmmo.text = System.Convert.ToString(curAmmo);
-        maxAmmo.text = System.Convert.ToString(mAmmo);
+        if (currentAmmo == null && maxAmmo == null){}
+        else
+        {
+            currentAmmo.text = System.Convert.ToString(curAmmo);
+            maxAmmo.text = System.Convert.ToString(mAmmo);
+        }
+        
     }
     void GetInfo()
     {

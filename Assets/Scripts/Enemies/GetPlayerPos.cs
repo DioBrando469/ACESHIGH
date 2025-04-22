@@ -5,16 +5,33 @@ using UnityEngine;
 
 public class GetPlayerPos : MonoBehaviour
 {
+    Coroutine lookCoroutine;
     [SerializeField] float range;
     [SerializeField] Transform defaultPos;
+    [SerializeField] float looktime;
+    Transform target;
     Vector3 dirtoplayer;
     bool foundplayer;
     RaycastHit hit;
     void Start()
     {
+        
         defaultPos = transform.parent.parent.transform;
-        dirtoplayer = GetDir(transform.position, defaultPos.position);
+        target = defaultPos;
         foundplayer = false;
+        lookCoroutine = StartCoroutine(LookForPlayerCoroutine(looktime));
+    }
+    void Update()
+    {
+        //dirtoplayer = GetDir(transform.position, target.position);
+    }
+    IEnumerator LookForPlayerCoroutine(float looktime)
+    {
+        while (true)
+        {
+            dirtoplayer = GetDir(transform.position, target.position);
+            yield return new WaitForSeconds(looktime);
+        }
     }
     void OnTriggerStay(Collider collider)
     {
@@ -25,7 +42,7 @@ public class GetPlayerPos : MonoBehaviour
                 if(hit.collider.gameObject.tag == "Player")
                 {
                     foundplayer = true;
-                    dirtoplayer = GetDir(transform.position, hit.point);
+                    target = collider.gameObject.transform;
                 }
                 //else
                 //{
@@ -33,20 +50,31 @@ public class GetPlayerPos : MonoBehaviour
                 //    dirtoplayer = GetDir(transform.position, defaultPos.position);
                 //}
             }
+            else
+            {
+                foundplayer = false;
+                
+            }
         }
+        
         
     }
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "startingPos" && foundplayer == false)
+        if (collider.gameObject == this.transform.parent.parent.gameObject && foundplayer == false)
         {
             dirtoplayer = dirtoplayer * 0f;
         }
     }
     void OnTriggerExit(Collider collider)
     {
-        foundplayer = false;
-        dirtoplayer = GetDir(transform.position, defaultPos.position);
+        if (collider.gameObject.tag == "Player" && collider.gameObject.GetComponent<HealthManager>() != null)
+        {
+            foundplayer = false;
+            target = defaultPos;
+        }
+        
+        
     }
 
     public Vector3 ReturnDir()

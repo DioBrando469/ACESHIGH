@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class WeaponSwitch : MonoBehaviour
 {
-    [SerializeField] KeyCode primarySwitch;
-    [SerializeField] KeyCode secondarySwitch;
-    [SerializeField] KeyCode meleeSwitch;
-    [SerializeField] KeyCode switchother;
+    InputSys inputSys;
+    KeyCode primarySwitch;
+    KeyCode secondarySwitch;
+    KeyCode meleeSwitch;
     public GameObject primaryWeapon;
     public GameObject secondaryWeapon;
     public GameObject meleeWeapon;
     GameObject currentWeapon;
 
+    public void SetInputs(){
+        inputSys = transform.parent.GetComponent<InputSys>();
+        primarySwitch = inputSys.weapon1;
+        secondarySwitch = inputSys.weapon2;
+        meleeSwitch = inputSys.weapon3;
+    }
     void Start()
     {
+        SetInputs();
         currentWeapon = primaryWeapon;
         primaryWeapon.SetActive(true);
         secondaryWeapon.SetActive(false);

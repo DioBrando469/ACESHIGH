@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   defaultPos: {fileID: 4563534981081315485}
+  looktime: 0.2
 --- !u!54 &3916832607195251249
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -205,7 +206,7 @@ MonoBehaviour:
   airSpeed: 0
   airDrag: 0
   walkRadius: {fileID: 6505920399684928797}
-  Height: 1
+  Height: 0.6
 --- !u!114 &7654588457315062111
 MonoBehaviour:
   m_ObjectHideFlags: 0

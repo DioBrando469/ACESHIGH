@@ -31,10 +31,18 @@ public class PlayerMovement : MonoBehaviour
     RaycastHit slopeHit;
 
     [Header("Keybinds")]
-    [SerializeField] KeyCode jumpKey = KeyCode.Space;
+    InputSys inputSys;
+    KeyCode jumpKey;
     // Start is called before the first frame update
+    public void SetInputs()
+    {
+        inputSys = this.transform.parent.GetComponent<InputSys>();
+        jumpKey = inputSys.jump;
+    }
     void Start()
     {
+        SetInputs();
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -77,11 +85,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isGrounded)
         {
-            rb.drag = groundDrag;
+            rb.linearDamping = groundDrag;
         }
         else
         {
-            rb.drag = airDrag;
+            rb.linearDamping = airDrag;
         }
     }
     void Jump()
@@ -104,31 +112,31 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
     void AirMovement(Vector3 vector3)
-{
-    // project the velocity onto the movevector
-    Vector3 projVel = Vector3.Project(GetComponent<Rigidbody>().velocity, vector3);
-
-    // check if the movevector is moving towards or away from the projected velocity
-    bool isAway = Vector3.Dot(vector3, projVel) <= 0f;
-
-    // only apply force if moving away from velocity or velocity is below MaxAirSpeed
-    if (projVel.magnitude < MaxAirSpeed || isAway)
     {
-        // calculate the ideal movement force
-        Vector3 vc = vector3.normalized * AirStrafeForce;
+        // проецируем вектор скорости на вектор ускорения
+        Vector3 projVel = Vector3.Project(GetComponent<Rigidbody>().linearVelocity, vector3);
 
-        // cap it if it would accelerate beyond MaxAirSpeed directly.
-        if (!isAway)
-        {
-            vc = Vector3.ClampMagnitude(vc, MaxAirSpeed - projVel.magnitude);
-        }
-        else
-        {
-            vc = Vector3.ClampMagnitude(vc, MaxAirSpeed + projVel.magnitude);
-        }
+        // проверяем если вектор ускорения направлен угол между векторами больше 90 находя скалярное произведение векторов
+        bool isAway = Vector3.Dot(vector3, projVel) <= 0f;
 
-        // Apply the force
-        GetComponent<Rigidbody>().AddForce(vc, ForceMode.VelocityChange);
+        // применяем силу только если движемся в сторону от вектора скорости или скорость меньше максимальной
+        if (projVel.magnitude < MaxAirSpeed || isAway)
+        {
+            // расчитываем силу ускорения
+            Vector3 vc = vector3.normalized * AirStrafeForce;
+
+            // ограничиваем ускорение если вектор ускорения не отходит от вектора скорости на 90 градусов
+            if (!isAway)
+            {
+                vc = Vector3.ClampMagnitude(vc, MaxAirSpeed - projVel.magnitude);
+            }
+            else
+            {
+                vc = Vector3.ClampMagnitude(vc, MaxAirSpeed + projVel.magnitude);
+            }
+
+            // применяем силу
+            GetComponent<Rigidbody>().AddForce(vc, ForceMode.VelocityChange);
+        }
     }
-}
 }

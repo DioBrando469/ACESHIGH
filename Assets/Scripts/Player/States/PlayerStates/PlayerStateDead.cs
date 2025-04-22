@@ -5,12 +5,19 @@ using UnityEngine;
 public class PlayerStateDead : PlayerStateBase
 {
 
+    KeyCode respawn;
+    InputSys inputSys;
     GameObject Object;
     CheckpointManager cm;
     HealthManager hp;
     PlayerMovement pm;
     WeaponSwitch ws;
     DeathScreen deathScreen;
+    public void ResetInput(GameObject obj)
+    {
+        inputSys = obj.transform.parent.gameObject.GetComponent<InputSys>();
+        respawn = inputSys.jump;
+    }
     public override void EnterState(PlayerStateManager player)
     {
         Object = player.gameObject;
@@ -23,10 +30,11 @@ public class PlayerStateDead : PlayerStateBase
         pm.enabled = false;
         ws.ReturnCurWeapon().SetActive(false);
         print("you're dead lol");
+        ResetInput(Object);
     }
     public override void UpdateState(PlayerStateManager player)
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(respawn))
         {
             deathScreen.Activate(false);
             pm.enabled = true;

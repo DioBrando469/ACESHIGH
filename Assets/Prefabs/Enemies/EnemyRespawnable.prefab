@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fecf3ba5af6fa45b29e8b08cabc653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxspeed: 0
   speed: 5
   jumpForce: 0
   speedMultiplier: 1
@@ -108,7 +109,7 @@ MonoBehaviour:
   airSpeed: 0
   airDrag: 0
   walkRadius: {fileID: 7817628606672723206}
-  Height: 1
+  Height: 0.6
 --- !u!114 &4869434731417544395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   defaultPos: {fileID: 0}
+  looktime: 0.2
 --- !u!54 &6488317791152006923
 Rigidbody:
   m_ObjectHideFlags: 0

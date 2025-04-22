@@ -36,18 +36,18 @@ public class EnemyWalk : MonoBehaviour
         //{
             //rb.velocity = 0f * movedirection;
         //}
-        //if (movedirection.magnitude + 0.1 <= Height && foundplayer == false)
-        //{
-        //    rb.velocity = 0f * movedirection;
-        //}
-        //if (movedirection.magnitude >= Height)
-        //{
-            rb.AddForce(movedirection.normalized * speed * speedMultiplier, ForceMode.VelocityChange);
-            if (rb.velocity.magnitude > maxspeed)
-            {
-                rb.AddForce(rb.velocity * (-1) * speedMultiplier * 0.5f, ForceMode.VelocityChange);
-            }
-        //}
+        if (movedirection.magnitude + 0.1 <= Height && foundplayer == false)
+        {
+            rb.linearVelocity = 0f * movedirection;
+        }
+        if (movedirection.magnitude >= Height)
+        {
+          rb.AddForce(movedirection.normalized * speed * speedMultiplier, ForceMode.VelocityChange);
+          if (rb.linearVelocity.magnitude > maxspeed)
+          {
+              rb.AddForce(rb.linearVelocity * (-1) * speedMultiplier * 0.5f, ForceMode.VelocityChange);
+          }
+        }
         
         
     }
@@ -71,11 +71,11 @@ public class EnemyWalk : MonoBehaviour
     {
         if(isGrounded)
         {
-            rb.drag = drag;
+            rb.linearDamping = drag;
         }
         else
         {
-            rb.drag = airDrag;
+            rb.linearDamping = airDrag;
         }
     }
     void Jump()

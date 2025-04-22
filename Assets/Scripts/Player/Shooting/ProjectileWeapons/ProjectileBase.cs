@@ -5,8 +5,9 @@ using UnityEngine;
 public class ProjectileBase : MonoBehaviour
 {
     [Header("Binds")]
-    [SerializeField] KeyCode fire;
-    [SerializeField] KeyCode reload;
+    InputSys inputSys;
+    KeyCode fire;
+    KeyCode reload;
     [Header("Properties")]
     [SerializeField] Camera fpsCam;
     [SerializeField] GameObject projectile;
@@ -30,8 +31,15 @@ public class ProjectileBase : MonoBehaviour
     //RaycastHit hit;
 
     // Start is called before the first frame update
+    public void refreshInputs(){
+        inputSys = transform.parent.transform.parent.transform.parent.GetComponent<InputSys>();
+        fire = inputSys.shoot;
+        reload = inputSys.reload;
+    }
     void Start()
     {
+        refreshInputs();
+        //}
         currentAmmo = maxAmmo;
         reserveAmmo = maxReserveAmmo;
         readyToShoot = true;
@@ -51,10 +59,10 @@ public class ProjectileBase : MonoBehaviour
         currentprojectile.GetComponent<Rigidbody>().AddForce(direction.normalized * shootForce, ForceMode.Impulse);
         currentprojectile.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
         currentAmmo -= 1;
-        if(allowInvoke)
+        if(readyToShoot)
         {
             Invoke("ResetShot", firerate);
-            allowInvoke = false;
+            readyToShoot = false;
         }
 
     }
@@ -69,6 +77,7 @@ public class ProjectileBase : MonoBehaviour
             }
             else
             {*/
+            isReloading = false;
             Shoot(GetDir(fpsCam.transform.position, ray.GetPoint(75)));
             //}
         }
@@ -96,7 +105,7 @@ public class ProjectileBase : MonoBehaviour
     }
     void Reloading()
     {
-        //FindObjectOfType<AudioManager>().Play(reloadSoundName);
+        isReloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
     void ReloadFinished()
@@ -105,8 +114,9 @@ public class ProjectileBase : MonoBehaviour
         {
             reserveAmmo -= 1;
             currentAmmo++;
-            isReloading = false;
+            Reloading();
         }
+        isReloading = false;
     }
     public int ReturnCurAmmo()
     {
